@@ -1,0 +1,33 @@
+{
+  "name": "mai-express",
+  "version": "0.0.1",
+  "description": "Maze Adventure Ist on express",
+  "main": "D:/Top/Dev/Docker/Mai/bck/app/app.js",
+  "scripts": {
+    "tsc": "tsc",
+    "eclern": "xxxrimraf D:/Top/Dev/Docker/Mai/bck/app/routes",
+    "emain": "webpack --mode=development  --config webpack.server.config.js --env entry=D:/Top/Dev/ts/mai_express/app.ts --env outdir=D:/Top/Dev/Docker/Mai/bck/app --env outfile=app.js",
+    "etest": "ts-node-dev --respawn D:/Top/Dev/ts/mai_express/src/express/app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "express": "^4.21.1",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.6.3",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.0",
+    "http-errors": "^2.0.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0"
+  }
+}
