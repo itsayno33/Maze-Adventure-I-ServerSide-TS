@@ -3,10 +3,13 @@ const db_host = 'sql';
 // 利用クラス等の読み込み
 
 // エラーメッセージ等を保存・表示するクラス
-import {C_DspMessage } from '../../../mai/src/d_utl/C_DspMessage';
+import {C_DspMessage }     from '../../../mai/src/d_utl/C_DspMessage';
 
 // 位置と方向を表すクラス
 import { C_PointDir }      from '../../../mai/src/d_mdl/C_PointDir';
+
+// 迷宮内もしくはギルド内の位置を表すクラス
+import { C_Location }      from '../../../mai/src/d_mdl/C_Location';
 
 // 滞在位置を示すクラス
 import { C_MovablePoint }  from '../../../mai/src/d_mdl/C_MovablePoint';
@@ -126,14 +129,14 @@ function new_guld(): C_Guild {
     guld.decode({name: '始まりの街の冒険者ギルド'});
 
     for (let i = 0; i < 12; i++) {
-        guld.append_hero((new C_Hero()).random_make());
+        guld.add_hero((new C_Hero()).random_make());
     }
 
     return guld;
 }
 
 function new_team(guld: C_Guild): C_Team {
-    const loc = new Location();
+    const loc = new C_Location();
     loc.decode({
         'kind':   'Guld',
         'name':    guld.get_name(),
@@ -147,10 +150,10 @@ function new_team(guld: C_Guild): C_Team {
     });
 
     const team = new C_Team();
-    team.set_name('ひよこさんチーム');
-    team .set_loc(new C_MovablePoint(loc));
+    team.set_prp({name:'ひよこさんチーム'});
+    team.set_loc((new C_MovablePoint()).decode(loc.encode()));
     for (let i = 0; i <= 3; i++) { 
-        team.append_hero((new C_Hero()).random_make());
+        team.add_hero((new C_Hero()).random_make());
     }
 
     return team;
