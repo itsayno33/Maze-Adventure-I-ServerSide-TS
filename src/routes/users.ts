@@ -1,9 +1,9 @@
-var express = require('express');
+import express from 'express';
 var router = express.Router();
 
-/* GET home page. */
+/* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.send('respond with a user resource');
 });
 
 module.exports = router;

@@ -1,7 +1,10 @@
-import express from "express";
-
+import express      from "express";
 import createError  from 'http-errors';
 import path         from "path";
+
+import usersRouter  from './routes/users';
+import maiexRouter  from './routes/mai';
+
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
@@ -27,7 +30,9 @@ rootRouter.get(
     res.send("Welcome to the Mai world! :-)");
   }
 );
-app.use("/", rootRouter);
+app.use("/",      rootRouter);
+app.use("/users", usersRouter);
+app.use("/mai",   maiexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req: express.Request, res: express.Response, next: express.NextFunction) {
