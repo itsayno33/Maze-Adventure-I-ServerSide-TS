@@ -2,8 +2,8 @@ import express      from "express";
 import createError  from 'http-errors';
 import path         from "path";
 
-import usersRouter  from './routes/users';
-import maiexRouter  from './routes/mai';
+var usersRouter = require('./routes/users');
+var maiexRouter = require('./routes/mai');
 
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
