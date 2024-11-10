@@ -16,7 +16,7 @@ module.exports = (env) => {
       filename: env.outfile,
     },
     resolve: {
-      extensions: ['.ts', '.js', '.json'],
+      extensions: ['.ts'],
       alias: {
           '/cmn': path.resolve(__dirname, '../mai/src/d_cmn'),
           '/mdl': path.resolve(__dirname, '../mai/src/d_mdl'),

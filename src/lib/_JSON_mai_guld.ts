@@ -43,17 +43,20 @@ interface I_Return {
     ecode: number;
     emsg:  string;
     save?: JSON_SaveData;
-    hres?: JSON_Hero[];
+    data?: {
+        hres:JSON_Hero[];
+    }
 }
 
-function newGame(arg: I_GlobalArguments): I_Return {
+export function newGame(arg: I_GlobalArguments): I_Return {
     init(arg);
     const guld = new_guld();
     const team = new_team(guld);
     const save = new_save(guld, team);
     return save_encode(0, save);
 }
-function newHero(arg: I_GlobalArguments): I_Return {
+
+export function newHres(arg: I_GlobalArguments): I_Return {
     init(arg);
     const hres = new_hres();
     return hres_encode(0,  hres);
@@ -97,6 +100,7 @@ function hres_encode(code: number, hres: C_Hero[]): I_Return {
         for(const hero of hres) {
             hres_array.push(hero.encode());
         }
+        ret_assoc.data  = {hres: hres_array};
         return ret_assoc;
     }
 }
@@ -120,8 +124,8 @@ function new_save(guld: C_Guild, team: C_Team): C_SaveData {
         all_guld:   [guld.encode()], 
         all_team:   [team.encode()],
 
-        mypos:      team.get_loc().encode(), 
-    });
+//loc        mypos:      team.get_loc().encode(), 
+});
 }
 
 function new_guld(): C_Guild {
@@ -136,22 +140,26 @@ function new_guld(): C_Guild {
 }
 
 function new_team(guld: C_Guild): C_Team {
-    const loc = new C_Location();
+    const team = new C_Team();
+//loc
+/*
+    const loc = new C_MovablePoint();
     loc.decode({
-        'kind':   'Guld',
-        'name':    guld.get_name(),
-        'loc_uid': guld.uid(),
-        'loc_pos': new C_PointDir({
+        kind:   'Guld',
+        name:    guld.get_name(),
+        loc_uid: guld.uid(),
+        loc_pos: new C_PointDir({
             'x': 0,
             'y': 0,
             'z': 0,
             'd': 0,
         }),
+        team_uid: team.uid(),
     });
-
-    const team = new C_Team();
+*/
     team.set_prp({name:'ひよこさんチーム'});
-    team.set_loc((new C_MovablePoint()).decode(loc.encode()));
+//loc    team.set_loc(loc);
+//    team.set_loc((new C_MovablePoint()).decode(loc.encode()));
     for (let i = 0; i <= 3; i++) { 
         team.add_hero((new C_Hero()).random_make());
     }
@@ -198,7 +206,9 @@ class C_GlobalVar {
     public heroes:     C_Hero[]  = [];
 
     public constructor() {
-        this.mes = new C_DspMessage( /* isHTML = */ false);
+        this.mes  = new C_DspMessage( /* isHTML = */ false);
+        this.team = new C_Team();
+        this.guld = new C_Guild();
     }
 }
 
@@ -217,5 +227,7 @@ class C_GlobalArguments {
     }
 }
 
+/*
 module.exports = newGame;
 module.exports = newHero;
+*/
