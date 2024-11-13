@@ -6,9 +6,10 @@
   "scripts": {
     "tsc": "tsc",
     "eclern": "xxxrimraf D:/Top/Dev/Docker/Mai/bck/app/routes",
-    "emain": "webpack --mode=development  --config webpack.server.config.js --env entry=D:/Top/Dev/ts/mai_express/src/app.ts --env outdir=D:/Top/Dev/Docker/Mai/bck/app --env outfile=app.js",
-    "etest": "node D:/Top/Dev/Docker/Mai/bck/app/app.js",
-    "ttest": "ts-node-dev --respawn D:/Top/Dev/ts/mai/src/emain/app.ts"
+    "emain": "webpack --mode=development  --config webpack.server.config.js --env entry=D:/Top/Dev/ts/maiex/src/app.ts --env outdir=D:/Top/Dev/Docker/Mai/bck/app --env outfile=app.js",
+    "etest":  "node ./src/bin/www",
+    "etest2": "node D:/Top/Dev/Docker/Mai/bck/app/app.js",
+    "ttest":  "ts-node-dev --respawn D:/Top/Dev/ts/maiex/src/app.ts"
   },
   "keywords": [],
   "author": "",
