@@ -3,7 +3,7 @@ import createError  from 'http-errors';
 import path         from "path";
 
 var usersRouter = require('./routes/users');
-var maiexRouter = require('./routes/mai');
+var maiexRouter = require('./routes/maiex');
 
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -32,7 +32,7 @@ rootRouter.get(
 );
 app.use("/",      rootRouter);
 app.use("/users", usersRouter);
-app.use("/mai",   maiexRouter);
+app.use("/maiex", maiexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -51,12 +51,9 @@ app.use(function(err: any, req: express.Request, res: express.Response, next: ex
 });
 
 const port = normalizePort(process.env.PORT || '3000');
-
-/*
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });
-*/
 
 /**
  * Normalize a port into a number, string, or false.
