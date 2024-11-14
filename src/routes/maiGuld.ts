@@ -1,27 +1,39 @@
+import { Interface } from 'readline';
 import {newGame, newHres} from '../lib/_JSON_mai_guld'
+import createError  from 'http-errors';
 
 import express from 'express';
 var router = express.Router();
 
 /* GET users listing. */
-router.get ('/', function(req: express.Request, res: express.Response, next: express.NextFunction) {
+router.get ('/', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   res.send('respond with a maiGuld');
 });
 
-router.post('/newGame', function(req: express.Request, res: express.Response, next: express.NextFunction) {
-  const ret = newGame(req.body);
-  res.json(ret);
+router.post('/newGame', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  try {
+    const ret = newGame(req.body);
+    res.status(200);res.json(ret);
+  } catch (err) {
+    console.log(`newGame POST error: ${err}`);
+    next(createError(406));
+  }
 });
-router.get ('/newGame', function(req: express.Request, res: express.Response, next: express.NextFunction) {
+router.get ('/newGame', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   res.send('respond with a maiNewGame');
 });
 
-router.post('/newHres', function(req: express.Request, res: express.Response, next: express.NextFunction) {
-  const ret = newHres(req.body);
-  res.json(ret);
+router.post('/newHres', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  try {
+    const ret = newHres(req.body);
+    res.status(200);res.json(ret);
+  } catch (err) {
+    console.log(`newHres POST error: ${err}`);
+    next(createError(406));
+  }
 });
 
-router.get ('/newHres', function(req: express.Request, res: express.Response, next: express.NextFunction) {
+router.get ('/newHres', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   res.send('respond with a maiNewHres');
 });
 
