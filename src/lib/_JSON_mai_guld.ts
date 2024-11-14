@@ -8,9 +8,6 @@ import {C_DspMessage }     from '../../../mai/src/d_utl/C_DspMessage';
 // 位置と方向を表すクラス
 import { C_PointDir }      from '../../../mai/src/d_mdl/C_PointDir';
 
-// 迷宮内もしくはギルド内の位置を表すクラス
-import { C_Location }      from '../../../mai/src/d_mdl/C_Location';
-
 // 滞在位置を示すクラス
 import { C_MovablePoint }  from '../../../mai/src/d_mdl/C_MovablePoint';
 
@@ -50,15 +47,15 @@ interface I_Return {
 
 export function newGame(arg: I_GlobalArguments): I_Return {
     init(arg);
-    const guld = new_guld();
-    const team = new_team(guld);
-    const save = new_save(guld, team);
+    const  guld = new_guld();
+    const  team = new_team(guld);
+    const  save = new_save(guld, team);
     return save_encode(0, save);
 }
 
 export function newHres(arg: I_GlobalArguments): I_Return {
     init(arg);
-    const hres = new_hres();
+    const  hres = new_hres();
     return hres_encode(0,  hres);
 }
 
@@ -115,6 +112,7 @@ function new_hres(): C_Hero[] {
 
 function new_save(guld: C_Guild, team: C_Team): C_SaveData {
     return new C_SaveData({
+        player_id: ga.pid,
         auto_mode: '0',
         is_active: '1',
         is_delete: '0',
@@ -124,7 +122,8 @@ function new_save(guld: C_Guild, team: C_Team): C_SaveData {
         all_guld:   [guld.encode()], 
         all_team:   [team.encode()],
 
-//loc        mypos:      team.get_loc().encode(), 
+//loc
+        mypos:      team.get_loc().encode(), 
 });
 }
 
@@ -142,7 +141,6 @@ function new_guld(): C_Guild {
 function new_team(guld: C_Guild): C_Team {
     const team = new C_Team();
 //loc
-/*
     const loc = new C_MovablePoint();
     loc.decode({
         kind:   'Guld',
@@ -156,10 +154,11 @@ function new_team(guld: C_Guild): C_Team {
         }),
         team_uid: team.uid(),
     });
-*/
     team.set_prp({name:'ひよこさんチーム'});
-//loc    team.set_loc(loc);
-//    team.set_loc((new C_MovablePoint()).decode(loc.encode()));
+//loc
+    team.set_loc(loc);
+
+    //    team.set_loc((new C_MovablePoint()).decode(loc.encode()));
     for (let i = 0; i <= 3; i++) { 
         team.add_hero((new C_Hero()).random_make());
     }
@@ -221,8 +220,8 @@ class C_GlobalArguments {
 
     public constructor(obj: I_GlobalArguments|undefined) {
         this.mode = obj?.mode ?? 'unknown';
-        this.num  = obj?.num  ?? 1;
-        this.pid  = obj?.pid  ?? 1;
+        this.num  = obj?.num !== undefined && !isNaN(obj.num) ? Number(obj.num) : 1;
+        this.pid  = obj?.pid !== undefined && !isNaN(obj.pid) ? Number(obj.pid) : 1;
         this.hres_JSON = obj?.hres_JSON ?? undefined;
     }
 }
