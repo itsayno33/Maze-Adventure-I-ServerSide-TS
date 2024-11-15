@@ -31,7 +31,7 @@ import {C_SaveData, JSON_SaveData} from '../../../mai/src/d_mdl/C_SaveData';
 
 interface I_GlobalArguments {
     mode?: string;
-    num?:  number;
+    nmbr?: number;
     pid?:  number;
     hres_JSON?: string;
 }
@@ -104,7 +104,7 @@ function hres_encode(code: number, hres: C_Hero[]): I_Return {
 
 function new_hres(): C_Hero[] {
     const heroes: C_Hero[] = [];
-    for (let i = 0; i < ga.num; i++) {
+    for (let i = 0; i < ga.nmbr; i++) {
         heroes.push((new C_Hero()).random_make());
     }
     return heroes;
@@ -214,15 +214,16 @@ class C_GlobalVar {
 // POST引数の設定
 class C_GlobalArguments {
     public mode: string;
-    public num: number = 1;
-    public pid: number = 1;
+    public nmbr: number = 1;
+    public pid:  number = 1;
     public hres_JSON: string|undefined = '';
 
     public constructor(obj: I_GlobalArguments|undefined) {
         this.mode = obj?.mode ?? 'unknown';
-        this.num  = obj?.num !== undefined && !isNaN(obj.num) ? Number(obj.num) : 1;
-        this.pid  = obj?.pid !== undefined && !isNaN(obj.pid) ? Number(obj.pid) : 1;
+        this.nmbr = obj?.nmbr !== undefined && !isNaN(obj.nmbr) ? Number(obj.nmbr) : 1;
+        this.pid  = obj?.pid  !== undefined && !isNaN(obj.pid)  ? Number(obj.pid)  : 1;
         this.hres_JSON = obj?.hres_JSON ?? undefined;
+//debug        console.log(`mode=${this.mode}, nmbr=${this.nmbr}, pid = ${this.pid}`);
     }
 }
 

@@ -12,7 +12,9 @@ router.get ('/', async (req: express.Request, res: express.Response, next: expre
 
 router.post('/newGame', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
-    const ret = newGame({...req.body});
+//debug    for (const key in req.body) console.log(`req.${key}: ${req.body[key]}`);
+
+    const ret = newGame(req.body);
     res.status(200);res.json(ret);
   } catch (err) {
     console.log(`newGame POST error: ${err}`);
@@ -25,7 +27,9 @@ router.get ('/newGame', async (req: express.Request, res: express.Response, next
 
 router.post('/newHres', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
-    const ret = newHres({...req.body});
+//debug    for (const key in req.body) console.log(`req.${key}: ${req.body[key]}`);
+
+    const ret = newHres(req.body);
     res.status(200);res.json(ret);
   } catch (err) {
     console.log(`newHres POST error: ${err}`);
