@@ -1,4 +1,4 @@
-import { mazeInfo, newGame, newMaze }  from '../lib/_JSON_mai_maze';
+import { allMaze, getMaze, newMaze }  from '../lib/_JSON_mai_maze';
 import createError  from 'http-errors';
 
 import express from 'express';
@@ -9,53 +9,53 @@ router.get ('/', async (req: express.Request, res: express.Response, next: expre
   res.send('respond with a maiMaze');
 });
 
-router.post('/newGame', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+router.post('/newMaze', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
 //debug    for (const key in req.body) console.log(`req.${key}: ${req.body[key]}`);
 
-    const ret = newGame(req.body);
-    res.status(200);res.json(ret);
+    const ret = newMaze(req.body);
+    res.status(200);res.send(ret);
   } catch (err) {
     console.log(`newGame POST error: ${err}`);
     next(createError(406));
   }
 });
 
-router.get ('/newGame', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  res.send('respond with a maiNewGame');
+router.get ('/newMaze', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  res.send('respond with a New Game To Maze of mai');
 });
 
-router.post('/newMaze', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+router.post('/getMaze', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
 //debug    for (const key in req.body) console.log(`req.${key}: ${req.body[key]}`);
 
-    const ret = newMaze(req.body);
-    res.status(200);res.json(ret);
+    const ret = getMaze(req.body);
+    res.status(200);res.send(ret);
   } catch (err) {
     console.log(`newMaze POST error: ${err}`);
     next(createError(406));
   }
 });
 
-router.get ('/newMaze', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  res.send('respond with a maiNewHres');
+router.get ('/getMaze', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  res.send('respond with Getting New Maze data of mai');
 });
 
 
-router.post('/mazeInfo', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+router.post('/allMaze', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
 //debug    for (const key in req.body) console.log(`req.${key}: ${req.body[key]}`);
 
-    const ret = mazeInfo(req.body);
-    res.status(200);res.json(ret);
+    const ret = allMaze(req.body);
+    res.status(200);res.send(ret);
   } catch (err) {
     console.log(`mazeInfo POST error: ${err}`);
     next(createError(406));
   }
 });
 
-router.get ('/mazeInfo', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  res.send('respond with a maiNewGame');
+router.get ('/allMaze', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  res.send('respond with All Maze Infomation of mai');
 });
 
 module.exports = router;

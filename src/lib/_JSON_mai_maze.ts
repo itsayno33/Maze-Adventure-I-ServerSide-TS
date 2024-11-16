@@ -47,46 +47,50 @@ interface I_Return {
     ecode: number;
     emsg:  string;
     save?: JSON_SaveData;
-    data?: string;
+    data?: object;
 }
 
-
-export function mazeInfo(obj: I_GlobalArguments): string {
+// Getting Information of All Maze
+export function allMaze(obj: I_GlobalArguments): string {
     init(obj);
 
     const maze_info_array: JSON_MazeInfo[] = [];
     for (const name in gv.mazeinfo) maze_info_array.push(gv.mazeinfo[name].encode());
-    const ret_JSON = all_encode(
-        0, 
-        {mazeinfo: maze_info_array},
+    return JSON.stringify(
+        all_encode(
+            0, 
+            {mazeinfo: maze_info_array},
+        ),
+        null, "\t"
     );
-    return JSON.stringify(ret_JSON);
 }
 
-
-export function newMaze(obj: I_GlobalArguments): string {
+// Getting New Maze
+export function getMaze(obj: I_GlobalArguments): string {
     init(obj);
 
     const [new_maze, new_pos] = create_maze(ga.maze_name); 
-    const ret_JSON = all_encode(
-        0, 
-        {
-            maze: new_maze.encode(),
-            pos:  new_pos,
-        },
+    return JSON.stringify(
+        all_encode(
+            0, 
+            {
+                maze: new_maze.encode(),
+                pos:  new_pos,
+            },
+        ),
+        null, "\t"
     );
-    return JSON.stringify(ret_JSON);
 }
 
-
-export function newGame(obj: I_GlobalArguments): string {
+// Getting New Game startiing from Maze
+export function newMaze(obj: I_GlobalArguments): string {
     init(obj);
 
     const [new_maze, new_pos] = create_maze(''); 
     const new_team = create_team(new_maze, new_pos); 
     const new_save = create_save(new_maze, new_team);
     const ret_JSON = save_encode(0, new_save);
-    return JSON.stringify(ret_JSON);
+    return JSON.stringify(ret_JSON, null, "\t");
 }
 
 
@@ -108,7 +112,7 @@ function all_encode(code: number, data: object): I_Return {
         return err_encode(code, gv.mes.get_err_messages());
     }
     ret_assoc.emsg = 'Status OK';
-    ret_assoc.data =  JSON.stringify(data);
+    ret_assoc.data =  data;
 
     return ret_assoc;
 }
@@ -237,7 +241,7 @@ function init(obj: I_GlobalArguments): void {
 class C_GlobalVar {
     public mes: C_DspMessage;
 
-    public mazeinfo: {[maze_name: string]: C_MazeInfo} = {};
+    public mazeinfo: {[maze_mbname: string]: C_MazeInfo} = {};
 //    public maze:     C_Maze;
     public team:     C_Team;
     public heroes:   C_Hero[] = [];
@@ -252,7 +256,7 @@ class C_GlobalVar {
         this.mes = new C_DspMessage( /* isHTML = */ false);
 
         const mazeinfo = C_MazeInfo.get_tbl_all(); 
-        for (const mi of mazeinfo) this.mazeinfo[mi.name] = mi; 
+        for (const mi of mazeinfo) this.mazeinfo[mi.mbname] = mi; 
 /*
         const [rslt, mazeinfo]  = C_MazeInfo.get_tbl_all();
         this.mazeinfo = (rslt !== undefined) ? mazeinfo : []; 
