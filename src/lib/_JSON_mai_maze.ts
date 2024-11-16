@@ -10,10 +10,10 @@ import { T_MzKind }       from  '../../../mai/src/d_mdl/T_MzKind';
 import { C_PointDir, T_Direction }   from  '../../../mai/src/d_mdl/C_PointDir';
 
 // 位置・経路を表すクラス全般
-import { C_MovablePoint } from '../../../mai/src/d_mdl/C_MovablePoint';
+import { C_MovablePoint }            from '../../../mai/src/d_mdl/C_MovablePoint';
 
 // MAZE関係クラス全般
-import { C_Maze }         from '../../../mai/src/d_mdl/C_Maze';
+import { C_Maze }                    from '../../../mai/src/d_mdl/C_Maze';
 import { C_MazeInfo, JSON_MazeInfo } from '../../../mai/src/d_mdl/C_MazeInfo'; // Maze作成のテンプレート情報
 
 // パーティークラス全般
@@ -237,8 +237,8 @@ function init(obj: I_GlobalArguments): void {
 class C_GlobalVar {
     public mes: C_DspMessage;
 
-    public mazeinfo: C_MazeInfo[] = [];
-    public maze:     C_Maze;
+    public mazeinfo: {[maze_name: string]: C_MazeInfo} = {};
+//    public maze:     C_Maze;
     public team:     C_Team;
     public heroes:   C_Hero[] = [];
 
@@ -251,7 +251,8 @@ class C_GlobalVar {
     public constructor() {
         this.mes = new C_DspMessage( /* isHTML = */ false);
 
-        this.mazeinfo = C_MazeInfo.get_tbl_all(); 
+        const mazeinfo = C_MazeInfo.get_tbl_all(); 
+        for (const mi of mazeinfo) this.mazeinfo[mi.name] = mi; 
 /*
         const [rslt, mazeinfo]  = C_MazeInfo.get_tbl_all();
         this.mazeinfo = (rslt !== undefined) ? mazeinfo : []; 
