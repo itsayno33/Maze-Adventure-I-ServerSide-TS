@@ -186,12 +186,14 @@ function create_team(maze: C_Maze, pos: C_PointDir): C_Team {
 
     $d = random_int(0, Direct::MAX);
 */
-    const loc  = new C_MovablePoint().decode({
+const team = new C_Team();
+const loc  = new C_MovablePoint().decode({
         'kind'   : 'Maze',
         'name'   :  maze.get_name(),
         'loc_uid':  maze.uid(),
         'loc_pos':  pos,
-/*
+        'team_uid': team.uid(),
+        /*
         'loc_pos' => [
             'x'   => $x,
             'y'   => $y,
@@ -201,7 +203,6 @@ function create_team(maze: C_Maze, pos: C_PointDir): C_Team {
 */
     });
 
-    const team = new C_Team();
 
     team.set_prp({'name': 'ひよこさんチーム'});
     team.set_loc(loc);
