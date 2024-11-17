@@ -14,7 +14,8 @@ router.post('/newMaze', async (req: express.Request, res: express.Response, next
 //debug    for (const key in req.body) console.log(`req.${key}: ${req.body[key]}`);
 
     const ret = newMaze(req.body);
-    res.status(200);res.send(ret);
+    res.status(200);
+    res.send(JSON.stringify(ret, null, "\t"));
   } catch (err) {
     console.log(`newGame POST error: ${err}`);
     next(createError(406));
@@ -30,7 +31,8 @@ router.post('/getMaze', async (req: express.Request, res: express.Response, next
 //debug    for (const key in req.body) console.log(`req.${key}: ${req.body[key]}`);
 
     const ret = getMaze(req.body);
-    res.status(200);res.send(ret);
+    res.status(200);
+    res.send(JSON.stringify(ret, null, "\t"));
   } catch (err) {
     console.log(`newMaze POST error: ${err}`);
     next(createError(406));
@@ -47,7 +49,8 @@ router.post('/allMaze', async (req: express.Request, res: express.Response, next
 //debug    for (const key in req.body) console.log(`req.${key}: ${req.body[key]}`);
 
     const ret = allMaze(req.body);
-    res.status(200);res.send(ret);
+    res.status(200);
+    res.send(JSON.stringify(ret, null, "\t"));
   } catch (err) {
     console.log(`mazeInfo POST error: ${err}`);
     next(createError(406));

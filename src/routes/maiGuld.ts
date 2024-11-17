@@ -15,7 +15,8 @@ router.post('/newGuld', async (req: express.Request, res: express.Response, next
 //debug    for (const key in req.body) console.log(`req.${key}: ${req.body[key]}`);
 
     const ret = newGuld(req.body);
-    res.status(200);res.send(ret);
+    res.status(200);
+    res.send(JSON.stringify(ret, null, "\t"));
   } catch (err) {
     console.log(`newGame POST error: ${err}`);
     next(createError(406));
@@ -30,7 +31,8 @@ router.post('/allHres', async (req: express.Request, res: express.Response, next
 //debug    for (const key in req.body) console.log(`req.${key}: ${req.body[key]}`);
 
     const ret = allHres(req.body);
-    res.status(200);res.send(ret);
+    res.status(200);
+    res.send(JSON.stringify(ret, null, "\t"));
   } catch (err) {
     console.log(`newHres POST error: ${err}`);
     next(createError(406));

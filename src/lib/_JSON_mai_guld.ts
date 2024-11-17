@@ -46,19 +46,19 @@ interface I_Return {
 }
 
 // Getting New Game startiing from Guld
-export function newGuld(arg: I_GlobalArguments): string {
+export function newGuld(arg: I_GlobalArguments): I_Return {
     init(arg);
     const  guld = new_guld();
     const  team = new_team(guld);
     const  save = new_save(guld, team);
-    return JSON.stringify(save_encode(0, save), null, "\t");
+    return save_encode(0, save);
 }
 
 // Getting Any New Heores data
-export function allHres(arg: I_GlobalArguments): string {
+export function allHres(arg: I_GlobalArguments): I_Return {
     init(arg);
     const  hres = new_hres();
-    return JSON.stringify(hres_encode(0,  hres), null, "\t");
+    return hres_encode(0,  hres);
 }
 
  
