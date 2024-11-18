@@ -5,19 +5,19 @@
         <title>Form test</title>
     </head>
     <body>
-        <form action="/maiex/load/test" method="POST">
+        <form action="/maiex/ldsv/test" method="POST">
             <input type="text" name="pid" val="<%= pid %>" />
             <input type="submit" value="検索" />
         </form>
         <hr />
-        <% if (name === undefined) { %>
+        <% if (pid < 0) { %>
             <p>検索結果無し</p>
         <% } else { %>
-            <dl>
-                <dt>ID:</dt>  <dd><%= pid    %></dd>
-                <dt>Name:</dt><dd><%= name   %></dd>
-                <dt>名前:</dt><dd><%= mbname %></dd>
-            </dl>
+            <ul>
+                <li>ID:   <%= pid    %></li>
+                <li>Name: <%= name   %></li>
+                <li>名前: <%= mbname %></li>
+            </ul>
         <% } %>
     </body>
 </html>

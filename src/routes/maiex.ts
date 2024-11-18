@@ -8,7 +8,7 @@ var maiLoadRouter = require('./maiLoad');
 // router setup
 router.use('/guld',   maiGuldRouter);
 router.use('/maze',   maiMazeRouter);
-router.use('/laod',   maiLoadRouter);
+router.use('/ldsv',   maiLoadRouter);
 
 /* GET users listing. */
 router.get('/', function(req: express.Request, res: express.Response, next: express.NextFunction) {
