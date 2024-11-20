@@ -11,7 +11,7 @@ router.get ('/', async (req: express.Request, res: express.Response, next: expre
 
 router.post('/newMaze', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
-//debug    for (const key in req.body) console.log(`req.${key}: ${req.body[key]}`);
+//debug    for (const key in req.body) console.error(`req.${key}: ${req.body[key]}`);
 
     const ret = newMaze(req.body);
     res.status(200);
@@ -28,7 +28,7 @@ router.get ('/newMaze', async (req: express.Request, res: express.Response, next
 
 router.post('/getMaze', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
-//debug    for (const key in req.body) console.log(`req.${key}: ${req.body[key]}`);
+//debug    for (const key in req.body) console.error(`req.${key}: ${req.body[key]}`);
 
     const ret = getMaze(req.body);
     res.status(200);
@@ -46,7 +46,7 @@ router.get ('/getMaze', async (req: express.Request, res: express.Response, next
 
 router.post('/allMaze', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
-//debug    for (const key in req.body) console.log(`req.${key}: ${req.body[key]}`);
+//debug    for (const key in req.body) console.error(`req.${key}: ${req.body[key]}`);
 
     const ret = allMaze(req.body);
     res.status(200);
