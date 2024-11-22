@@ -74,31 +74,31 @@ export async function general_load(arg: I_GlobalArguments): Promise<I_Return> {
 
 export async function tmp_save(arg: I_GlobalArguments): Promise<I_Return> {
     init(arg);
-    const ret_val = await _save(100, '__TemporarySaveData__', 230);
+    const ret_val = await _save(ga.pid, 100, '__TemporarySaveData__', 230);
     finl();
     return ret_val;
 }
 export async function instant_save(arg: I_GlobalArguments): Promise<I_Return> {
     init(arg);
-    const ret_val = await _save(101, '__InstantSaveData__', 210);
+    const ret_val = await _save(ga.pid, 101, '__InstantSaveData__', 210);
     finl();
     return ret_val;
 }
 export async function UD_save(arg: I_GlobalArguments): Promise<I_Return> {
     init(arg);
-    const ret_val = await _save(102, '__UpDownSaveData__', 250);
+    const ret_val = await _save(ga.pid, 102, '__UpDownSaveData__', 250);
     finl();
     return ret_val;
 }
 export async function before_save(arg: I_GlobalArguments): Promise<I_Return> {
     init(arg);
-    const ret_val = await _save(103, '__BeforeTheEventData__', 280);
+    const ret_val = await _save(ga.pid, 103, '__BeforeTheEventData__', 280);
     finl();
     return ret_val;
 }
 export async function general_save(arg: I_GlobalArguments): Promise<I_Return> {
     init(arg);
-    const ret_val = await _save(ga.save?.uniq_no??99, ga.save?.title??'???', 230);
+    const ret_val = await _save(ga.pid, ga.save?.uniq_no??99, ga.save?.title??'???', 230);
     finl();
     return ret_val;
 }
@@ -130,15 +130,16 @@ async function _load(pid: number, uno: number, ecode: number): Promise<I_Return>
 
 }
 
-async function _save(uniq_no: number, title: string, ecode: number): Promise<I_Return> {
-    if (ga.save === undefined) return all_save_data(ecode, undefined)
-    ga.save.uniq_no = uniq_no;
-    ga.save.title   = title;
+async function _save(pid: number, uniq_no: number, title: string, ecode: number): Promise<I_Return> {
+    if (ga.save === undefined) return all_save_data(ecode, undefined);
+    ga.save.player_id = pid;
+    ga.save.uniq_no   = uniq_no;
+    ga.save.title     = title;
 
     await tr_begin(gv.db_mai);
 
     // ユニーク・ナンバーでsaveデータを探す。
-    const save_id = await C_SaveInfoRDB.get_save_id_at_tbl(gv.db_mai, gv.mes, ga.save.player_id, ga.save.uniq_no);
+    const save_id = await C_SaveInfoRDB.get_save_id_at_tbl(gv.db_mai, gv.mes, pid, uniq_no);
     if (gv.mes.is_err()) {
         await tr_rollback(gv.db_mai);
         return all_save_data(ecode + 10, ga.save);
@@ -305,11 +306,11 @@ function finl(): void {
             this.mode        = obj.mode ?? this.mode;
             this.pid         = obj.pid  ?? this.pid;
             this.uno         = obj.uno  ?? this.uno;
-            this.save        = new C_SaveData(obj.save) ?? this.save;
             this.save_id     = Number(obj.save_id)      ?? this.save_id;
             this.save_title  = obj.save_title           ?? this.save_title;
             this.save_detail = obj.save_detail          ?? this.save_detail;
             this.save_point  = obj.save_point           ?? this.save_point;
+            if (obj.save !== undefined)    this.save    = new C_SaveData(obj.save);
         }
     }
 
