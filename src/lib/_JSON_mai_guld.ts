@@ -68,7 +68,7 @@ export function allHres(arg: I_GlobalArguments): I_Return {
 
 function err_encode(code: number, msgs: string[]): I_Return {
     const ret_assoc: I_Return = {ecode:code, emsg: ''};
-    for (const msg in msgs) ret_assoc.emsg += msg; 
+    for (const msg of msgs) ret_assoc.emsg += msg; 
     return ret_assoc;
 }
 

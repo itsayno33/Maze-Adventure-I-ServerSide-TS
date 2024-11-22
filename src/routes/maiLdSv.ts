@@ -1,4 +1,4 @@
-import {test} from '../lib/_JSON_mai_ldsv'
+import {test} from '../lib/_JSON_mai_ldsv_test'
 import createError  from 'http-errors';
 
 import express from 'express';
@@ -9,6 +9,9 @@ router.get ('/', async (req: express.Request, res: express.Response, next: expre
   res.send('respond with a maiLoadSave');
 });
 
+/*
+** For Test Function
+*/
 router.post('/test', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
 //debug
