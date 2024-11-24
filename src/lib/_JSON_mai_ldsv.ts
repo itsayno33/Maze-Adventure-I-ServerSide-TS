@@ -1,6 +1,5 @@
-    // 利用クラス等の読み込み
+// 利用クラス等の読み込み
 
-    
 // エラーメッセージ等を保存・表示するクラス
 import { C_DspMessage } from '../../../mai/src/d_utl/C_DspMessage';
 
@@ -8,9 +7,13 @@ import { C_DspMessage } from '../../../mai/src/d_utl/C_DspMessage';
 import mysql            from "mysql2/promise";
 
 // Save/Load関係クラス全般
-import { C_SaveInfo }   from '../../../mai/src/d_mdl/C_SaveInfo';
+import { C_SaveInfo, JSON_SaveInfo }    from '../../../mai/src/d_mdl/C_SaveInfo';
 import { C_SaveData, JSON_SaveData }    from '../../../mai/src/d_mdl/C_SaveData';
 import { C_SaveDataRDB, C_SaveInfoRDB } from '../../../mai/src/d_rdb/C_SaveDataRDB';
+
+type db_connect = mysql.PoolConnection;
+let  db_mai: db_connect;
+
 
 /*******************************************************************************/
 /*                                                                             */
@@ -21,16 +24,16 @@ import { C_SaveDataRDB, C_SaveInfoRDB } from '../../../mai/src/d_rdb/C_SaveDataR
 interface I_Return {
     ecode:      number;
     emsg:       string;
-    save_info?: C_SaveInfo[];
-    save?:      C_SaveData;
+    save_info?: JSON_SaveInfo[];
+    save?:      JSON_SaveData;
 }
 
 
-export async function save_info(arg: I_GlobalArguments): Promise<I_Return> {
-    init(arg);
+export async function info(arg: I_GlobalArguments): Promise<I_Return> {
+    await init(arg);
 
     let   ret_val: I_Return;
-    const save_array = await C_SaveInfoRDB.get_list_by_pid(gv.db_mai, gv.mes, ga.pid);
+    const save_array = await C_SaveInfoRDB.get_list_by_pid(db_mai, gv.mes, ga.pid);
     if (gv.mes.is_err()) {
         ret_val = err_encode(500);
     } else {
@@ -40,6 +43,7 @@ export async function save_info(arg: I_GlobalArguments): Promise<I_Return> {
     return ret_val;
 }
 
+/*
 export async function tmp_load(arg: I_GlobalArguments): Promise<I_Return> {
     init(arg);
     const ret_val = await _load(ga.pid, 100, 330);
@@ -70,8 +74,29 @@ export async function general_load(arg: I_GlobalArguments): Promise<I_Return> {
     finl();
     return ret_val;
 }
+*/
 
 
+export async function load(arg: I_GlobalArguments): Promise<I_Return> {
+    await init(arg);
+    const pid = ga.pid;
+    let   uno: number;
+    let   eno: number;
+    switch (ga.mode) {
+        case 'tmp_load':      uno = 100;    eno = 330; break;
+        case 'instant_load':  uno = 101;    eno = 310; break;
+        case 'UD_load':       uno = 102;    eno = 350; break;
+        case 'before_load':   uno = 103;    eno = 370; break;
+        case 'general_load':  uno = ga.uno; eno = 390; break;
+        default:              return err_encode(8888);
+    }
+    const ret_val = await _load(pid, uno, eno);
+    finl();
+    return ret_val;
+}
+
+
+/*
 export async function tmp_save(arg: I_GlobalArguments): Promise<I_Return> {
     init(arg);
     const ret_val = await _save(ga.pid, 100, '__TemporarySaveData__', 230);
@@ -102,6 +127,30 @@ export async function general_save(arg: I_GlobalArguments): Promise<I_Return> {
     finl();
     return ret_val;
 }
+*/
+
+
+export async function save(arg: I_GlobalArguments): Promise<I_Return> {
+    await init(arg);
+    const pid  = ga.save?.player_id??-2;
+    let   uno:   number;
+    let   eno:   number;
+    let   title: string;
+    switch (ga.mode) {
+        case 'tmp_save':      uno = 100;    eno = 230; title= '__TemporarySaveData__';  break;
+        case 'instant_save':  uno = 101;    eno = 210; title= '__InstantSaveData__';    break;
+        case 'UD_save':       uno = 102;    eno = 250; title= '__UpDownSaveData__';     break;
+        case 'before_save':   uno = 103;    eno = 270; title= '__BeforeTheEventData__'; break;
+        case 'general_save':  uno = ga.save?.uniq_no??99; eno = 290; title = ga.save?.title??'???';  break;
+        default:              return err_encode(9999);
+    }
+//    console.error(`pid=${pid}, uno=${uno}, title=${title}, eno=${eno}`);
+    const ret_val = await _save(pid, uno, title, eno);
+    finl();
+    return ret_val;
+}
+
+
 
 
 //////////////////////////////////////////////
@@ -109,23 +158,23 @@ export async function general_save(arg: I_GlobalArguments): Promise<I_Return> {
 //////////////////////////////////////////////
 
 async function _load(pid: number, uno: number, ecode: number): Promise<I_Return> {
-    await tr_begin(gv.db_mai);
+    await tr_begin(db_mai);
 
     // ユニーク・ナンバーでsaveデータを探す。見つかればsave_idにセットする
-    const save_id = await C_SaveInfoRDB.get_save_id_at_tbl(gv.db_mai, gv.mes, pid, uno);
+    const save_id = await C_SaveInfoRDB.get_save_id_at_tbl(db_mai, gv.mes, pid, uno);
     if (gv.mes.is_err()) {
-        await tr_rollback(gv.db_mai);
+        await tr_rollback(db_mai);
         return all_save_data(ecode, undefined);;
     }
 
     // mezeやteam等の関連するデータを反映する
-    const save_data02 = await C_SaveDataRDB.get_from_rdb(gv.db_mai, gv.mes, save_id);
+    const save_data02 = await C_SaveDataRDB.get_from_rdb(db_mai, gv.mes, save_id);
     if (gv.mes.is_err()) {
-        await tr_rollback(gv.db_mai);
+        await tr_rollback(db_mai);
         return all_save_data(ecode, undefined);;
     }
 
-    await tr_commit(gv.db_mai);
+    await tr_commit(db_mai);
     return all_save_data(0, save_data02);
 
 }
@@ -135,31 +184,32 @@ async function _save(pid: number, uniq_no: number, title: string, ecode: number)
     ga.save.player_id = pid;
     ga.save.uniq_no   = uniq_no;
     ga.save.title     = title;
-
-    await tr_begin(gv.db_mai);
+//console.error(`pid=${pid}, uno=${uniq_no}, title=${title}`);
+    await tr_begin(db_mai);
 
     // ユニーク・ナンバーでsaveデータを探す。
-    const save_id = await C_SaveInfoRDB.get_save_id_at_tbl(gv.db_mai, gv.mes, pid, uniq_no);
+    const save_id = await C_SaveInfoRDB.get_save_id_at_tbl(db_mai, gv.mes, pid, uniq_no);
     if (gv.mes.is_err()) {
-        await tr_rollback(gv.db_mai);
+        await tr_rollback(db_mai);
         return all_save_data(ecode + 10, ga.save);
     }
-    // 同じユニーク・ナンバーの既存データが有ったら一旦削除する
+    // 同じidの既存データが有ったら一旦削除する
+//debug console.error(`save_id = ${save_id}`);
     if (save_id > 0) {
-        const rslt01 = await C_SaveDataRDB.del_to_rdb(gv.db_mai, gv.mes, save_id); 
-        if (rslt01 === false) {
-            await tr_rollback(gv.db_mai);
+        const rslt01 = await C_SaveDataRDB.del_to_rdb(db_mai, gv.mes, save_id); 
+        if (gv.mes.is_err()) {
+            await tr_rollback(db_mai);
             return all_save_data(ecode + 33, ga.save);
         }
     }
     // 改めて(別のレコードに)セーブする
-    const rslt02 = await C_SaveDataRDB.set_to_rdb(gv.db_mai, gv.mes, ga.save);
+    const rslt02 = await C_SaveDataRDB.set_to_rdb(db_mai, gv.mes, ga.save);
     if (rslt02 === false) {
-        await tr_rollback(gv.db_mai);
+        await tr_rollback(db_mai);
         return all_save_data(ecode + 23, ga.save);
     }
 
-    await tr_commit(gv.db_mai);
+    await tr_commit(db_mai);
     return all_save_data(0, ga.save);
 }
 
@@ -171,7 +221,7 @@ function all_save_data(code: number, save: C_SaveData|undefined): I_Return {
     } else {
         ret_val = new C_NorReturn();
         if (save !== undefined) {
-            ret_val.save = save;
+            ret_val.save = save.encode();
         } else {
             ret_val.save = undefined;
         }
@@ -187,7 +237,10 @@ function all_save_info(code: number, save_list: C_SaveInfo[]): I_Return {
         ret_val = new C_ErrReturn(code, gv.mes.get_err_messages().join("\n"));
     } else {
         ret_val = new C_NorReturn();
-        ret_val.save_info = save_list;
+//        ret_val.save_info = save_list;
+        const ret_array: JSON_SaveData[] = [];
+        for (const save_elm of save_list) ret_array.push(save_elm.encode());
+        ret_val.save_info = ret_array;
     }
 
     return ret_val;
@@ -226,12 +279,15 @@ class C_ErrReturn implements I_Return {
 let gv: C_GlobalVar;
 let ga: C_GlobalArguments;
 
-function init(obj: I_GlobalArguments): void {
-    gv = new C_GlobalVar();
-    ga = new C_GlobalArguments(obj);
+async function init(obj: I_GlobalArguments): Promise<void> {
+    gv =     new C_GlobalVar();
+    ga =     new C_GlobalArguments(obj);
+    db_mai = await gv.db_pool.getConnection();
+
     return;
 }
 function finl(): void {
+    db_mai.release();
     gv.finl();
 }
 
@@ -251,12 +307,12 @@ function finl(): void {
         public db_user:   string = "itsayno33";
         public db_pass:   string = "PE333833";
     
-        public db_mai:    mysql.Pool;
+        public db_pool:   mysql.Pool;
     
         public constructor() {
             this.mes     = new C_DspMessage( /* isHTML = */ false);
     
-            this.db_mai  = mysql.createPool({
+            this.db_pool = mysql.createPool({
                 host:      this.db_host,
                 port:      this.db_port,
                 user:      this.db_user,
@@ -269,7 +325,7 @@ function finl(): void {
             });
         }
         public finl() {
-            this.db_mai.end();
+            this.db_pool.end();
         }
     }
     
@@ -282,7 +338,7 @@ function finl(): void {
         save_detail?: string; 
         save_point?:  string; 
         save_time?:   string; 
-        save?:        JSON_SaveData;
+        save?:        string;
     }
     
             // POST引数の設定
@@ -310,7 +366,7 @@ function finl(): void {
             this.save_title  = obj.save_title           ?? this.save_title;
             this.save_detail = obj.save_detail          ?? this.save_detail;
             this.save_point  = obj.save_point           ?? this.save_point;
-            if (obj.save !== undefined)    this.save    = new C_SaveData(obj.save);
+            if (obj.save !== undefined)    this.save    = new C_SaveData(JSON.parse(obj.save));
         }
     }
 
@@ -319,7 +375,7 @@ function finl(): void {
 ///////////////////////////////////////////////   
 
 
-    async function tr_begin(db_mai: mysql.Pool): Promise<boolean> {
+    async function tr_begin(db_mai: db_connect): Promise<boolean> {
         try {
             await db_mai.beginTransaction();
         } catch (err) {
@@ -329,7 +385,7 @@ function finl(): void {
         return true;
     }
 
-    async function tr_commit(db_mai: mysql.Pool): Promise<boolean> {
+    async function tr_commit(db_mai: db_connect): Promise<boolean> {
         try {
             await db_mai.commit();
         } catch (err) {
@@ -339,7 +395,7 @@ function finl(): void {
         return true;
     }
 
-    async function tr_rollback(db_mai: mysql.Pool): Promise<boolean> {
+    async function tr_rollback(db_mai: db_connect): Promise<boolean> {
         try {
             await db_mai.rollback();
         } catch (err) {
