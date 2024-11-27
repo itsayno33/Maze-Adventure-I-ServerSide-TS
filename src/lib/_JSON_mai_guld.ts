@@ -161,7 +161,7 @@ function new_team(guld: C_Guild): C_Team {
     team.set_loc(loc);
 
     //    team.set_loc((new C_MovablePoint()).decode(loc.encode()));
-    for (let i = 0; i <= 3; i++) { 
+    for (let i = 0; i < 1; i++) { 
         team.add_hero((new C_Hero()).random_make());
     }
 
