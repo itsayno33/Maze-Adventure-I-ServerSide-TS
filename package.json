@@ -2,33 +2,33 @@
   "name": "mai",
   "version": "0.0.1",
   "description": "Maze Adventure Ist",
-  "main": "D:/Top/Dev/Docker/Mai/bck/app/app.js",
+  "main": "E:/Dev/vscode/mai/Mai_docker/bck/app/app.js",
   "scripts": {
-    "maiex": "webpack --mode=development  --config webpack.server.config.js --env entry=D:/Top/Dev/ts/maiex/src/app.ts --env outdir=D:/Top/Dev/Docker/Mai/bck/app --env outfile=app.js",
-    "start": "node D:/Top/Dev/Docker/Mai/bck/app/app.js",
-    "test": "ts-node-dev --respawn D:/Top/Dev/ts/maiex/src/app.ts"
+    "maiex": "webpack --mode=development  --config webpack.server.config.js --env entry=E:/Dev/vscode/mai/maiex/src/app.ts --env outdir=E:/Dev/vscode/mai/Mai_docker/bck/app --env outfile=app.js",
+    "start": "node E:/Dev/vscode/mai/Mai_docker/bck/app/app.js",
+    "test": "ts-node-dev --respawn E:/Dev/vscode/mai/maiex/src/app.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.1",
     "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
-    "mysql2": "^3.11.4",
+    "http-errors": "^2.0.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.11.5",
     "nodemon": "^3.1.7",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.6.3",
+    "typescript": "^5.7.2",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0",
     "webpack-node-externals": "^3.0.0"
-  },
-  "devDependencies": {
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.9.0",
-    "http-errors": "^2.0.0",
-    "morgan": "^1.10.0"
   }
 }
