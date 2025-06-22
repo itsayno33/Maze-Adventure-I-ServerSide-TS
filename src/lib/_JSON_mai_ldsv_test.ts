@@ -3,7 +3,7 @@ const db_host = 'sql';
 // 利用クラス等の読み込み
 
 // エラーメッセージ等を保存・表示するクラス
-import { C_DspMessage }     from '../../../mai/src/d_utl/C_DspMessage';
+import { C_DspMessage }     from '../../../maicl/src/d_utl/C_DspMessage';
 
 // MySqlを扱うクラス
 import mysql from "mysql2/promise";

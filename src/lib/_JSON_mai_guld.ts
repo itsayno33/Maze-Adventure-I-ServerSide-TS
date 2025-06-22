@@ -3,25 +3,25 @@ const db_host = 'sql';
 // 利用クラス等の読み込み
 
 // エラーメッセージ等を保存・表示するクラス
-import {C_DspMessage }     from '../../../mai/src/d_utl/C_DspMessage';
+import {C_DspMessage }     from '../../../maicl/src/d_utl/C_DspMessage';
 
 // 位置と方向を表すクラス
-import { C_PointDir }      from '../../../mai/src/d_mdl/C_PointDir';
+import { C_PointDir }      from '../../../maicl/src/d_mdl/C_PointDir';
 
 // 滞在位置を示すクラス
-import { C_MovablePoint }  from '../../../mai/src/d_mdl/C_MovablePoint';
+import { C_MovablePoint }  from '../../../maicl/src/d_mdl/C_MovablePoint';
 
 // ギルドクラス全般
-import {C_Guild}           from '../../../mai/src/d_mdl/C_Guild';
+import {C_Guild}           from '../../../maicl/src/d_mdl/C_Guild';
 
 // パーティークラス全般
-import {C_Team}            from '../../../mai/src/d_mdl/C_Team';
+import {C_Team}            from '../../../maicl/src/d_mdl/C_Team';
 
 // ヒーロークラス全般
-import {C_Hero, JSON_Hero} from  '../../../mai/src/d_mdl/C_Hero';
+import {C_Hero, JSON_Hero} from  '../../../maicl/src/d_mdl/C_Hero';
 
 // セーブデータ(クライアントとの連携)全般
-import {C_SaveData, JSON_SaveData} from '../../../mai/src/d_mdl/C_SaveData';
+import {C_SaveData, JSON_SaveData} from '../../../maicl/src/d_mdl/C_SaveData';
 
 /*******************************************************************************/
 /*                                                                             */
