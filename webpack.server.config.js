@@ -18,9 +18,9 @@ module.exports = (env) => {
     resolve: {
       extensions: ['.ts'],
       alias: {
-          '/cmn': path.resolve(__dirname, '../mai/src/d_cmn'),
-          '/mdl': path.resolve(__dirname, '../mai/src/d_mdl'),
-          '/utl': path.resolve(__dirname, '../mai/src/d_utl'),
+          '/cmn': path.resolve(__dirname, '../maicl/src/d_cmn'),
+          '/mdl': path.resolve(__dirname, '../maicl/src/d_mdl'),
+          '/utl': path.resolve(__dirname, '../maicl/src/d_utl'),
       },
     },
     target: 'node',

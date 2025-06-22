@@ -2,11 +2,11 @@
   "name": "mai",
   "version": "0.0.1",
   "description": "Maze Adventure Ist",
-  "main": "D:/Docker/Mai_Docker/bck/app/app.js",
+  "main": "C:/__Dev/mai/docker/bck/app/app.js",
   "scripts": {
-    "maiex": "webpack --mode=development  --config webpack.server.config.js --env entry=D:/Dev/ts/maiex/src/app.ts --env outdir=D:/Docker/Mai_Docker/bck/app --env outfile=app.js",
-    "start": "node D:/Docker/Mai_Docker/bck/app/app.js",
-    "test": "ts-node-dev --respawn D:/Dev/ts/maiex/src/app.ts"
+    "maiex": "webpack --mode=development  --config webpack.server.config.js --env entry=C:/__Dev/mai/maiex/src/app.ts --env outdir=C:/__Dev/mai/docker/bck/app --env outfile=app.js",
+    "start": "node C:/__Dev/mai/docker/bck/app/app.js",
+    "test": "ts-node-dev --respawn C:/__Dev/mai/maiex/src/app.ts"
   },
   "keywords": [],
   "author": "",
