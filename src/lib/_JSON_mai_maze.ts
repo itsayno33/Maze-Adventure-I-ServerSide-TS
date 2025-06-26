@@ -1,7 +1,7 @@
 // 利用クラス等の読み込み
 
 // エラーメッセージ等を保存・表示するクラス
-import { C_DspMessage }   from '../../../maicl/src/d_utl/C_DspMessage';
+import { C_DspMessage }   from '@d_utl/C_DspMessage';
 
 // ダンジョンマップのセルの種類を表す列挙型
 import { T_MzKind }       from  '../../../maicl/src/d_mdl/T_MzKind';

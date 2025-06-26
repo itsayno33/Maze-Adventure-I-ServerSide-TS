@@ -1,0 +1,16 @@
+{"compilerOptions": {
+
+    "target": "es2015",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "C:/__Dev/mai/docker/bck/app",
+    "baseUrl": "./", 
+    "paths": {
+        "@d_cmn/*": ["../maicl/src/d_cmn/*"],
+        "@d_mdl/*": ["../maicl/src/d_mdl/*"],
+        "@d_utl/*": ["../maicl/src/d_utl/*"]
+    }
+}}

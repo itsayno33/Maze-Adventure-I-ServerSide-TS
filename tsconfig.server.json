@@ -107,5 +107,13 @@
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+
+    ,
+    "baseUrl": "./", 
+    "paths": {
+        "@d_cmn/*": ["../maicl/src/d_cmn/*"],
+        "@d_mdl/*": ["../maicl/src/d_mdl/*"],
+        "@d_utl/*": ["../maicl/src/d_utl/*"]
+    }
   }
 }
