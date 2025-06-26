@@ -1,15 +1,15 @@
 // 利用クラス等の読み込み
 
 // エラーメッセージ等を保存・表示するクラス
-import { C_DspMessage } from '../../../maicl/src/d_utl/C_DspMessage';
+import { C_DspMessage } from '@d_utl/C_DspMessage';
 
 // MySqlを扱うクラス
 import mysql            from "mysql2/promise";
 
 // Save/Load関係クラス全般
-import { C_SaveInfo, JSON_SaveInfo }    from '../../../maicl/src/d_mdl/C_SaveInfo';
-import { C_SaveData, JSON_SaveData }    from '../../../maicl/src/d_mdl/C_SaveData';
-import { C_SaveDataRDB, C_SaveInfoRDB } from '../../../maicl/src/d_rdb/C_SaveDataRDB';
+import { C_SaveInfo, JSON_SaveInfo }    from '@d_mdl/C_SaveInfo';
+import { C_SaveData, JSON_SaveData }    from '@d_mdl/C_SaveData';
+import { C_SaveDataRDB, C_SaveInfoRDB } from '@d_rdb/C_SaveDataRDB';
 
 type db_connect = mysql.PoolConnection;
 let  db_mai: db_connect;

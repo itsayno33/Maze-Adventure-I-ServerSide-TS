@@ -20,6 +20,7 @@ module.exports = (env) => {
       alias: {
           '@d_cmn' : path.resolve(__dirname, '../maicl/src/d_cmn'),
           '@d_mdl' : path.resolve(__dirname, '../maicl/src/d_mdl'),
+          '@d_rdb' : path.resolve(__dirname, '../maicl/src/d_rdb'),
           '@d_utl' : path.resolve(__dirname, '../maicl/src/d_utl'),
       },
     },

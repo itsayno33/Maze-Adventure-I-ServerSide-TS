@@ -11,6 +11,7 @@
     "paths": {
         "@d_cmn/*": ["../maicl/src/d_cmn/*"],
         "@d_mdl/*": ["../maicl/src/d_mdl/*"],
+        "@d_rdb/*": ["../maicl/src/d_rdb/*"],
         "@d_utl/*": ["../maicl/src/d_utl/*"]
     }
 }}

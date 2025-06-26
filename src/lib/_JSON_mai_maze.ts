@@ -4,26 +4,26 @@
 import { C_DspMessage }   from '@d_utl/C_DspMessage';
 
 // ダンジョンマップのセルの種類を表す列挙型
-import { T_MzKind }       from  '../../../maicl/src/d_mdl/T_MzKind';
+import { T_MzKind }       from  '@d_mdl/T_MzKind';
 
 // 方向を表すクラス
-import { C_PointDir, T_Direction }   from  '../../../maicl/src/d_mdl/C_PointDir';
+import { C_PointDir, T_Direction }   from  '@d_mdl/C_PointDir';
 
 // 位置・経路を表すクラス全般
-import { C_MovablePoint }            from '../../../maicl/src/d_mdl/C_MovablePoint';
+import { C_MovablePoint }            from '@d_mdl/C_MovablePoint';
 
 // MAZE関係クラス全般
-import { C_Maze }                    from '../../../maicl/src/d_mdl/C_Maze';
-import { C_MazeInfo, JSON_MazeInfo } from '../../../maicl/src/d_mdl/C_MazeInfo'; // Maze作成のテンプレート情報
+import { C_Maze }                    from '@d_mdl/C_Maze';
+import { C_MazeInfo, JSON_MazeInfo } from '@d_mdl/C_MazeInfo'; // Maze作成のテンプレート情報
 
 // パーティークラス全般
-import { C_Team }         from '../../../maicl/src/d_mdl/C_Team';
+import { C_Team }         from '@d_mdl/C_Team';
 
 // ヒーロークラス全般
-import { C_Hero }         from '../../../maicl/src/d_mdl/C_Hero';
+import { C_Hero }         from '@d_mdl/C_Hero';
 
 // セーブデータ(クライアントとの連携)全般
-import { C_SaveData, JSON_SaveData } from '../../../maicl/src/d_mdl/C_SaveData';
+import { C_SaveData, JSON_SaveData } from '@d_mdl/C_SaveData';
 
 /*******************************************************************************/
 /*                                                                             */
