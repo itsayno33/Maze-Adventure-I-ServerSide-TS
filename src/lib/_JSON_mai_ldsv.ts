@@ -181,6 +181,7 @@ async function _load(pid: number, uno: number, ecode: number): Promise<I_Return>
 
 async function _save(pid: number, uniq_no: number, title: string, ecode: number): Promise<I_Return> {
     if (ga.save === undefined) return all_save_data(ecode, undefined);
+                                                                        //show_save(ga.save); // テスト用(test用) デバッグ用にセーブデータを表示
     ga.save.player_id = pid;
     ga.save.uniq_no   = uniq_no;
     ga.save.title     = title;
@@ -368,6 +369,19 @@ function finl(): void {
             this.save_point  = obj.save_point           ?? this.save_point;
             if (obj.save !== undefined)    this.save    = new C_SaveData(JSON.parse(obj.save));
         }
+    }
+
+
+    // テスト用 JSON_saveのコンソール表示
+    function show_save(save: C_SaveData|undefined): void {
+        if (save === undefined) {
+            console.error("save is undefined");
+            return;
+        }
+        const json_save = save.encode();
+        const json_str = JSON.stringify(json_save, null, '\t');
+        console.error("JSON_save = " + json_str);
+        return;
     }
 
 ///////////////////////////////////////////////
