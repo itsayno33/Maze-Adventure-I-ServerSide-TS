@@ -24,6 +24,7 @@ import { C_Hero }         from '@d_mdl/C_Hero';
 
 // セーブデータ(クライアントとの連携)全般
 import { C_SaveData, JSON_SaveData } from '@d_mdl/C_SaveData';
+import { C_Guild } from '@d_mdl/C_Guild';
 
 /*******************************************************************************/
 /*                                                                             */
@@ -82,7 +83,9 @@ export function newMaze(obj: I_GlobalArguments): I_Return {
 
     const [new_maze, new_pos] = create_maze(''); 
     const  new_team = create_team(new_maze, new_pos); 
-    const  new_save = create_save(new_maze, new_team);
+    const  new_guld = create_guld();
+
+    const  new_save = create_save(new_maze, new_team, new_guld);
     const  ret_JSON = save_encode(0, new_save);
     return ret_JSON;
 }
@@ -124,7 +127,7 @@ function save_encode(code: number, save: C_SaveData): I_Return {
 }
 
 
-function create_save(maze: C_Maze, team: C_Team): C_SaveData {
+function create_save(maze: C_Maze, team: C_Team, guld: C_Guild): C_SaveData {
     return new C_SaveData({
         player_id: ga.pid,
         auto_mode: '0',
@@ -133,7 +136,7 @@ function create_save(maze: C_Maze, team: C_Team): C_SaveData {
 
         all_team:  [team.encode()],
         all_maze:  [maze.encode()],
-        all_guld:  [], 
+        all_guld:  [guld.encode()], 
         all_mvpt:  [], 
 
         mypos:     team.get_loc().encode(),
@@ -148,7 +151,7 @@ function create_maze(maze_name: string = ''): [C_Maze, C_PointDir] {
             'size_x': 21, 
             'size_y': 21, 
             'size_z': gv.Max_of_Maze_Floor
-    });
+        });
     } else {
         const mazeinfo = gv.mazeinfo[maze_name];
         maze = new C_Maze({
@@ -186,8 +189,8 @@ function create_team(maze: C_Maze, pos: C_PointDir): C_Team {
 
     $d = random_int(0, Direct::MAX);
 */
-const team = new C_Team();
-const loc  = new C_MovablePoint().decode({
+    const team = new C_Team();
+    const loc  = new C_MovablePoint().decode({
         'kind'   : 'Maze',
         'name'   :  maze.get_name(),
         'loc_uid':  maze.uid(),
@@ -212,6 +215,19 @@ const loc  = new C_MovablePoint().decode({
 
     return team;
 }
+
+
+function create_guld(): C_Guild {
+    const guld = new C_Guild();
+    guld.decode({name: '始まりの街の冒険者ギルド'});
+
+    for (let i = 0; i < 12; i++) {
+        guld.add_hero((new C_Hero()).random_make());
+    }
+
+    return guld;
+}
+
 
 
 /*******************************************************************************/
