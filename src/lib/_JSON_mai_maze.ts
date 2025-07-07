@@ -25,6 +25,10 @@ import { C_Hero }         from '@d_mdl/C_Hero';
 // セーブデータ(クライアントとの連携)全般
 import { C_SaveData, JSON_SaveData } from '@d_mdl/C_SaveData';
 import { C_Guild } from '@d_mdl/C_Guild';
+import { _irand } from '@d_utl/F_Rand';
+import { C_WndrObj } from '@d_mdl/C_WndrObj';
+import { C_MazeObj } from '@d_mdl/C_MazeObj';
+import { C_MazeObjShadow } from '@d_mdl/C_MazeObjEtc';
 
 /*******************************************************************************/
 /*                                                                             */
@@ -167,6 +171,9 @@ function create_maze(maze_name: string = ''): [C_Maze, C_PointDir] {
     for (let i = 1; i < maze.get_z_max(); i++) {
         maze.create_stair(i);
     }
+
+    install_objs(maze, 3); // テスト用のオブジェクトを設置
+
     const pos = maze.create_stair(0);
     return [maze, pos];
 }
@@ -216,7 +223,6 @@ function create_team(maze: C_Maze, pos: C_PointDir): C_Team {
     return team;
 }
 
-
 function create_guld(): C_Guild {
     const guld = new C_Guild();
     guld.decode({name: '始まりの街の冒険者ギルド'});
@@ -228,6 +234,35 @@ function create_guld(): C_Guild {
     return guld;
 }
 
+
+// 暫定(C_MazeObjのテスト用)
+function install_objs(maze: C_Maze, num: number = 1): void {
+    if (num < 1) num = 1;
+    if (num > 10) num = 10; // テスト用なので、最大10個まで
+    
+    // 通り抜けできないオブジェを置く（移動版）
+    for (let i = 0; i < num; i++) {
+        const x = _irand(0, (maze.get_x_max() - 1) / 2 - 1) * 2 + 1; 
+        const y = _irand(0, (maze.get_y_max() - 1) / 2 - 1) * 2 + 1; 
+        const z = _irand(0,  maze.get_z_max() - 1); // 0から最大階層まで
+
+        const obje = new C_WndrObj({
+            pos:    {x:x, y:y, z:z, d:0},
+        });
+        maze.add_obj(obje);
+    }
+    // 通り抜けできるオブジェを置く
+    for (let i = 0; i < num; i++) {
+        const x = _irand(0, (maze.get_x_max() - 1) / 2 - 1) * 2 + 1; 
+        const y = _irand(0, (maze.get_y_max() - 1) / 2 - 1) * 2 + 1; 
+        const z = _irand(0,  maze.get_z_max() - 1); // 0から最大階層まで
+
+        const obj = new C_MazeObjShadow({
+            pos:     {x:x, y:y, z:z, d:0},
+        });
+        maze.add_obj(obj);
+    }
+}
 
 
 /*******************************************************************************/
