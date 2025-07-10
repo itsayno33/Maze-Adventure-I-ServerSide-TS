@@ -248,6 +248,7 @@ function install_objs(maze: C_Maze, num: number = 1): void {
 
         const obje = new C_WndrObj({
             pos:    {x:x, y:y, z:z, d:0},
+            wowalk: {canTrou: "0",},
         });
         maze.add_obj(obje);
     }
