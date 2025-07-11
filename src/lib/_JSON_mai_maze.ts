@@ -165,16 +165,18 @@ function create_maze(maze_name: string = ''): [C_Maze, C_PointDir] {
             'size_z': mazeinfo.size_z
         });
     }
-    for (let i = 0; i < maze.get_z_max(); i++) {
+    const z_max = maze.get_z_max()
+    for (let i = 0; i < z_max; i++) {
         maze.create_maze(i);
     } 
-    for (let i = 1; i < maze.get_z_max(); i++) {
+    for (let i = 1; i < z_max; i++) {
         maze.create_stair(i);
     }
+    maze.create_stair(z_max);
+    const pos = maze.create_stair(0);
 
     install_objs(maze, 3); // テスト用のオブジェクトを設置
 
-    const pos = maze.create_stair(0);
     return [maze, pos];
 }
 
