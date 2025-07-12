@@ -166,18 +166,42 @@ function create_maze(maze_name: string = ''): [C_Maze, C_PointDir] {
         });
     }
     const z_max = maze.get_z_max()
-    for (let i = 0; i < z_max; i++) {
-        maze.create_maze(i);
+    for (let i = 0; i < z_max; i++) {         // 各階層の迷宮を作成
+        const pos = maze.create_maze(i);
     } 
-    for (let i = 1; i < z_max; i++) {
-        maze.create_stair(i);
+    for (let i = 1; i < z_max; i++) {         // 各階層の階段を作成
+        const pos = maze.create_stair(i);
+        const obje = new C_WndrObj({          // 中ボス設置
+            pos:  {x:pos.dn?.x??0, y:pos.dn?.y??0, z:pos.dn?.z??0, d:0},
+            view: {
+                layer: 0, letter: 'ボ', 
+                show3D:  '1',
+                pad_t: 0.1, pad_d: 0.0, pad_s: 0.3,
+                col_f: '#B9C3C9', col_b: '#DCDDDD', col_s: '#9EACB3', col_t: '#DCDDDD', col_d: '#9EACB3', 
+                col_l: '#9999ff', col_2: '#B9C3C9', col_L: '#6666ff', 
+                col_2_arw: '#9EACB3', col_2_tri: '#DCDDDD',
+            },
+
+            wowalk: {
+                cond: {
+                    canMove: '0',
+                    canSlid: "0",
+                    canUpDn: "0",
+                    canThru: "1",
+                },
+                boss_level: 1, // 中ボス
+            },
+        });
+        maze.add_obj(obje);
+
     }
-    maze.create_stair(z_max);
-    const pos = maze.create_stair(0);
+    const pos_btm = maze.create_stair(z_max); // 最下階の階段を作成
+
+    const pos_top = maze.create_stair(0);     // 最上階の階段を作成
 
     install_objs(maze, 3); // テスト用のオブジェクトを設置
 
-    return [maze, pos];
+    return [maze, pos_top.up];
 }
 
 // 迷宮探索 新規ゲーム用の暫定版処置。その二
