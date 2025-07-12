@@ -3,7 +3,7 @@ npm install -D webpack webpack-cli webpack-dev-server webpack-node-externals
 npm install -D typescript ts-loader ts-node ts-node-dev nodemon
 npm install -D npm-run-all rimraf
 
-
+ 
 npm install -D express cookie-parser http-errors morgan ejs
 npm install -D mysql2 dotenv
 
