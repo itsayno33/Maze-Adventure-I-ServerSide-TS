@@ -173,7 +173,7 @@ function create_maze(maze_name: string = ''): [C_Maze, C_PointDir] {
         const pos = maze.create_stair(i);
         const obje = new C_WndrObj({          // 中ボス設置
             pos:  {x:pos.dn?.x??0, y:pos.dn?.y??0, z:pos.dn?.z??0, d:0},
-            view: {
+            view: { // 配色は銀色
                 layer: 0, letter: 'ボ', 
                 show3D:  '1',
                 pad_t: 0.1, pad_d: 0.0, pad_s: 0.3,
@@ -183,19 +183,30 @@ function create_maze(maze_name: string = ''): [C_Maze, C_PointDir] {
             },
 
             wowalk: {
-                cond: {
-                    canMove: '0',
-                    canSlid: "0",
-                    canUpDn: "0",
-                    canThru: "1",
-                },
-                boss_level: 1, // 中ボス
+                cond: { canMove: '0', canSlid: "0", canUpDn: "0", canThru: "1" },
+                boss_level: 2, // 中ボス
             },
         });
         maze.add_obj(obje);
-
     }
     const pos_btm = maze.create_stair(z_max); // 最下階の階段を作成
+    const obje = new C_WndrObj({              // 大ボス設置
+        pos:  {x:pos_btm.dn?.x??0, y:pos_btm.dn?.y??0, z:pos_btm.dn?.z??0, d:0},
+        view: { // 配色は金色
+            layer: 0, letter: 'ボ', 
+            show3D:  '1',
+            pad_t: 0.1, pad_d: 0.0, pad_s: 0.3,
+            col_f: '#F5D100', col_b: '#BF9223', col_s: '#DBB300', col_t: '#F5D100', col_d: '#F5D100', 
+            col_l: '#9999ff', col_2: '#F5D100', col_L: '#6666ff', 
+            col_2_arw: '#BF9223', col_2_tri: '#F5D100',
+        },
+
+        wowalk: {
+            cond: { canMove: '0', canSlid: "0", canUpDn: "0", canThru: "1" },
+            boss_level: 3, // 大ボス
+        },
+    });
+    maze.add_obj(obje);
 
     const pos_top = maze.create_stair(0);     // 最上階の階段を作成
 
