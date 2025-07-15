@@ -182,7 +182,7 @@ function create_maze(maze_name: string = ''): [C_Maze, C_PointDir] {
                 col_2_arw: '#9EACB3', col_2_tri: '#DCDDDD',
             },
 
-            wowalk: {
+            walk: {
                 cond: { canMove: '0', canSlid: "0", canUpDn: "0", canThru: "1" },
                 boss_level: 2, // 中ボス
             },
@@ -201,7 +201,7 @@ function create_maze(maze_name: string = ''): [C_Maze, C_PointDir] {
             col_2_arw: '#BF9223', col_2_tri: '#F5D100',
         },
 
-        wowalk: {
+        walk: {
             cond: { canMove: '0', canSlid: "0", canUpDn: "0", canThru: "1" },
             boss_level: 3, // 大ボス
         },
@@ -285,7 +285,7 @@ function install_objs(maze: C_Maze, num: number = 1): void {
 
         const obje = new C_WndrObj({
             pos:    {x:x, y:y, z:z, d:0},
-            wowalk: {
+            walk: {
                 cond: {canThru: "0",},
             },
         });
