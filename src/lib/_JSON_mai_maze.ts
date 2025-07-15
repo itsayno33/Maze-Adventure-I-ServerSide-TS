@@ -27,7 +27,7 @@ import { C_SaveData, JSON_SaveData } from '@d_mdl/C_SaveData';
 import { C_Guild } from '@d_mdl/C_Guild';
 import { _irand } from '@d_utl/F_Rand';
 import { C_WndrObj } from '@d_mdl/C_WndrObj';
-import { C_MazeObj } from '@d_mdl/C_MazeObj';
+import { C_WndrObjBoss2, C_WndrObjBoss3 }  from '@d_mdl/C_WndrObjBoss';
 import { C_MazeObjShadow } from '@d_mdl/C_MazeObjEtc';
 
 /*******************************************************************************/
@@ -169,43 +169,25 @@ function create_maze(maze_name: string = ''): [C_Maze, C_PointDir] {
     for (let i = 0; i < z_max; i++) {         // 各階層の迷宮を作成
         const pos = maze.create_maze(i);
     } 
+
     for (let i = 1; i < z_max; i++) {         // 各階層の階段を作成
         const pos = maze.create_stair(i);
-        const obje = new C_WndrObj({          // 中ボス設置
+        const obje = new C_WndrObjBoss2({          // 中ボス設置
             pos:  {x:pos.dn?.x??0, y:pos.dn?.y??0, z:pos.dn?.z??0, d:0},
-            view: { // 配色は銀色
-                layer: 0, letter: 'ボ', 
-                show3D:  '1',
-                pad_t: 0.1, pad_d: 0.0, pad_s: 0.3,
-                col_f: '#B9C3C9', col_b: '#DCDDDD', col_s: '#9EACB3', col_t: '#DCDDDD', col_d: '#9EACB3', 
-                col_l: '#9999ff', col_2: '#B9C3C9', col_L: '#6666ff', 
-                col_2_arw: '#9EACB3', col_2_tri: '#DCDDDD',
-            },
-
-            walk: {
-                cond: { canMove: '0', canSlid: "0", canUpDn: "0", canThru: "1" },
-                boss_level: 2, // 中ボス
-            },
         });
+        for (const wndr of obje.wres()?.wres() ?? []) {
+            wndr.random_make(); // ボスの装備をランダムに設定
+        }
         maze.add_obj(obje);
     }
-    const pos_btm = maze.create_stair(z_max); // 最下階の階段を作成
-    const obje = new C_WndrObj({              // 大ボス設置
-        pos:  {x:pos_btm.dn?.x??0, y:pos_btm.dn?.y??0, z:pos_btm.dn?.z??0, d:0},
-        view: { // 配色は金色
-            layer: 0, letter: 'ボ', 
-            show3D:  '1',
-            pad_t: 0.1, pad_d: 0.0, pad_s: 0.3,
-            col_f: '#F5D100', col_b: '#BF9223', col_s: '#DBB300', col_t: '#F5D100', col_d: '#F5D100', 
-            col_l: '#9999ff', col_2: '#F5D100', col_L: '#6666ff', 
-            col_2_arw: '#BF9223', col_2_tri: '#F5D100',
-        },
 
-        walk: {
-            cond: { canMove: '0', canSlid: "0", canUpDn: "0", canThru: "1" },
-            boss_level: 3, // 大ボス
-        },
+    const pos_btm = maze.create_stair(z_max); // 最下階の階段を作成
+    const obje = new C_WndrObjBoss3({              // 大ボス設置
+        pos:  {x:pos_btm.dn?.x??0, y:pos_btm.dn?.y??0, z:pos_btm.dn?.z??0, d:0},
     });
+    for (const wndr of obje.wres()?.wres() ?? []) {
+        wndr.random_make(); // ボスの装備をランダムに設定
+    }
     maze.add_obj(obje);
 
     const pos_top = maze.create_stair(0);     // 最上階の階段を作成
@@ -288,7 +270,18 @@ function install_objs(maze: C_Maze, num: number = 1): void {
             walk: {
                 cond: {canThru: "0",},
             },
+            wndr: [
+                    { boss_level: 0, family: '雑魚', },
+                    { boss_level: 0, family: '雑魚', },
+                    { boss_level: 0, family: '雑魚', },
+                    { boss_level: 0, family: '雑魚', },
+            ],
         });
+
+        for (const wndr of obje.wres()?.wres() ?? []) {
+            wndr.random_make(); // ボスの装備をランダムに設定
+        }
+
         maze.add_obj(obje);
     }
     // 通り抜けできるオブジェを置く
