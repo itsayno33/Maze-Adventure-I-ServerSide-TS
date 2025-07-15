@@ -270,7 +270,7 @@ function install_objs(maze: C_Maze, num: number = 1): void {
             walk: {
                 cond: {canThru: "0",},
             },
-            wndr: [
+            wres: [
                     { boss_level: 0, family: '雑魚', },
                     { boss_level: 0, family: '雑魚', },
                     { boss_level: 0, family: '雑魚', },
