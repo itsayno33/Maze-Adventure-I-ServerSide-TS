@@ -185,7 +185,6 @@ function create_maze(maze_name: string = ''): [C_Maze, C_PointDir] {
     const obje = new C_WndrObjBoss3({              // 大ボス設置
         pos:  {x:pos_btm.dn?.x??0, y:pos_btm.dn?.y??0, z:pos_btm.dn?.z??0, d:0},
     });
-                                                          _json_console(obje.wres(), 'C_WndrObjBoss3.wres()');
     for (const wndr of obje.wres() ?? []) {
         wndr.random_make(); // ボスの装備をランダムに設定
     }
