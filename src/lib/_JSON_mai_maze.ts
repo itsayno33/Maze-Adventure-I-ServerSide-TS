@@ -133,6 +133,7 @@ function save_encode(code: number, save: C_SaveData): I_Return {
 
 
 function create_save(maze: C_Maze, team: C_Team, guld: C_Guild): C_SaveData {
+    
     return new C_SaveData({
         player_id: ga.pid,
         auto_mode: '0',
@@ -176,7 +177,7 @@ function create_maze(maze_name: string = ''): [C_Maze, C_PointDir] {
             pos:  {x:pos.dn?.x??0, y:pos.dn?.y??0, z:pos.dn?.z??0, d:0},
         });
         for (const wndr of obje.wres() ?? []) {
-            wndr.random_make(); // ボスの装備をランダムに設定
+            wndr.random_make(); // 中ボスの装備をランダムに設定
         }
         maze.add_obj(obje);
     }
@@ -186,14 +187,13 @@ function create_maze(maze_name: string = ''): [C_Maze, C_PointDir] {
         pos:  {x:pos_btm.dn?.x??0, y:pos_btm.dn?.y??0, z:pos_btm.dn?.z??0, d:0},
     });
     for (const wndr of obje.wres() ?? []) {
-        wndr.random_make(); // ボスの装備をランダムに設定
+        wndr.random_make(); // 大ボスの装備をランダムに設定
     }
     maze.add_obj(obje);
 
     const pos_top = maze.create_stair(0);     // 最上階の階段を作成
 
     install_objs(maze, 3); // テスト用のオブジェクトを設置
-
     return [maze, pos_top.up];
 }
 
@@ -279,7 +279,7 @@ function install_objs(maze: C_Maze, num: number = 1): void {
         });
 
         for (const wndr of obje.wres() ?? []) {
-            wndr.random_make(); // ボスの装備をランダムに設定
+            wndr.random_make(); // 雑魚の装備をランダムに設定
         }
 
         maze.add_obj(obje);
